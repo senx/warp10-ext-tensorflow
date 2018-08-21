@@ -62,7 +62,7 @@ configurations {
 dependencies {
     // The production code uses the SLF4J logging API at compile time
     compile 'org.slf4j:slf4j-api:1.7.13'
-    provided 'io.warp10:warpscript:1.2.7'
+    compile 'io.warp10:warpscript:1.2.22'
 
     compile group: 'org.tensorflow', name: 'proto', version: '1.2.0'
     
