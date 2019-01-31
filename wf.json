@@ -3,7 +3,7 @@
   "group": "io.warp10",
   "artifact": "warp10-ext-tensorflow",
   "version": "0.1.0",
-  "description": "Warp 10 TensorFlow extension",
+  "description": "WarpScript TensorFlow Extension",
   "author": "SenX",
   "email": "contact@senx.io",
   "license": "Apache-2.0",
