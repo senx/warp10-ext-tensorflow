@@ -1,0 +1,13 @@
+{
+  "type": "ext",
+  "group": "io.warp10",
+  "artifact": "warp10-ext-tensorflow",
+  "version": "0.1.0",
+  "description": "Warp 10 TensorFlow extension",
+  "author": "SenX",
+  "email": "contact@senx.io",
+  "license": "Apache-2.0",
+  "git": "https://github.com/senx/warp10-ext-tensorflow",
+  "tags": "warpscript, warp 10, tensorflow",
+  "repoUrl": "https://dl.bintray.com/senx/maven/"
+}
