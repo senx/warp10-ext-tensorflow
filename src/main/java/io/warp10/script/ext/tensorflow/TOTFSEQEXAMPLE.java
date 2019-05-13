@@ -94,8 +94,20 @@ public class TOTFSEQEXAMPLE extends NamedWarpScriptFunction implements WarpScrip
         FeatureList.Builder fl = FeatureList.newBuilder();
         
         if (value instanceof List) {
+          // Check if one of the elements is a list, if not consider it is a simple feature
+          boolean containsList = false;
           for (Object val: (List<Object>) value) {
-            fl.addFeature(encodeFeature(getName(), val));
+            if (val instanceof List) {
+              containsList = true;
+              break;
+            }
+          }
+          if (containsList) {
+            for (Object val: (List<Object>) value) {
+              fl.addFeature(encodeFeature(getName(), val));
+            }
+          } else {
+            fl.addFeature(encodeFeature(getName(), value));
           }
         } else {
           fl.addFeature(encodeFeature(getName(), value));
