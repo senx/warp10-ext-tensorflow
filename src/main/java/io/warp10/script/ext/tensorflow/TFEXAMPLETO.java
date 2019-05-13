@@ -1,5 +1,5 @@
 //
-//   Copyright 2018  SenX S.A.S.
+//   Copyright 2019  SenX S.A.S.
 //
 //   Licensed under the Apache License, Version 2.0 (the "License");
 //   you may not use this file except in compliance with the License.
@@ -13,6 +13,7 @@
 //   See the License for the specific language governing permissions and
 //   limitations under the License.
 //
+
 package io.warp10.script.ext.tensorflow;
 
 import java.util.ArrayList;
@@ -29,7 +30,6 @@ import org.tensorflow.example.FloatList;
 import org.tensorflow.example.Int64List;
 
 import com.google.protobuf.ByteString;
-import com.google.protobuf.Descriptors.FieldDescriptor;
 
 import io.warp10.script.NamedWarpScriptFunction;
 import io.warp10.script.WarpScriptException;
@@ -57,37 +57,41 @@ public class TFEXAMPLETO extends NamedWarpScriptFunction implements WarpScriptSt
     Map<String,Feature> featmap = features.getFeatureMap();
       
     for (Entry<String,Feature> entry: featmap.entrySet()) {
-      List<Object> values = new ArrayList<Object>();
-      map.put(entry.getKey(), values);
-              
       Feature feature = entry.getValue();
-      
-      BytesList bl = entry.getValue().getBytesList();
-      if (bl.getValueCount() > 0) {
-        for (ByteString bs: bl.getValueList()) {
-          values.add(bs.toByteArray());
-        }
-        continue;
-      }
-      
-      Int64List il = entry.getValue().getInt64List();
-      if (il.getValueCount() > 0) {
-        for (Long l: il.getValueList()) {
-          values.add(l);
-        }
-        continue;
-      }
-      
-      FloatList fl = entry.getValue().getFloatList();
-      if (fl.getValueCount() > 0) {
-        for (Float f: fl.getValueList()) {
-          values.add(f.doubleValue());
-        }
-      }        
+      map.put(entry.getKey(), decodeFeature(feature));      
     }
 
     stack.push(map);
     
     return stack;
+  }
+  
+  public static List<Object> decodeFeature(Feature feature) {
+    List<Object> values = new ArrayList<Object>();
+    
+    BytesList bl = feature.getBytesList();
+    if (bl.getValueCount() > 0) {
+      for (ByteString bs: bl.getValueList()) {
+        values.add(bs.toByteArray());
+      }
+      return values;
+    }
+    
+    Int64List il = feature.getInt64List();
+    if (il.getValueCount() > 0) {
+      for (Long l: il.getValueList()) {
+        values.add(l);
+      }
+      return values;
+    }
+    
+    FloatList fl = feature.getFloatList();
+    if (fl.getValueCount() > 0) {
+      for (Float f: fl.getValueList()) {
+        values.add(f.doubleValue());
+      }
+    }        
+
+    return values;
   }
 }

@@ -1,5 +1,5 @@
 //
-//   Copyright 2018  SenX S.A.S.
+//   Copyright 2019  SenX S.A.S.
 //
 //   Licensed under the Apache License, Version 2.0 (the "License");
 //   you may not use this file except in compliance with the License.
@@ -13,6 +13,7 @@
 //   See the License for the specific language governing permissions and
 //   limitations under the License.
 //
+
 package io.warp10.script.ext.tensorflow;
 
 import java.nio.ByteBuffer;
@@ -20,6 +21,7 @@ import java.nio.ByteOrder;
 
 import org.apache.hadoop.util.PureJavaCrc32C;
 import org.tensorflow.example.Example;
+import org.tensorflow.example.SequenceExample;
 
 import io.warp10.script.NamedWarpScriptFunction;
 import io.warp10.script.WarpScriptException;
@@ -47,16 +49,22 @@ public class TOTFRECORD extends NamedWarpScriptFunction implements WarpScriptSta
     
     Object top = stack.pop();
     
-    if (!(top instanceof Example)) {
-      throw new WarpScriptException(getName() + " expects a TensorFlow Example on top of the stack.");
+    if (!(top instanceof Example) && !(top instanceof SequenceExample)) {
+      throw new WarpScriptException(getName() + " expects a TensorFlow Example or SequenceExample on top of the stack.");
     }
+
+    byte[] bytes;
     
-    Example example = (Example) top;
+    if (top instanceof Example) {
+      bytes = ((Example) top).toByteArray();
+    } else {
+      bytes = ((SequenceExample) top).toByteArray();
+    }
 
     if (docrc) {
-      stack.push(toTFRecord(example.toByteArray()));
+      stack.push(toTFRecord(bytes));
     } else {
-      stack.push(example.toByteArray());
+      stack.push(bytes);
     }
 
     return stack;

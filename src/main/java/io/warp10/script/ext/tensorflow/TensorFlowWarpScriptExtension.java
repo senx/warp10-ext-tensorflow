@@ -1,5 +1,5 @@
 //
-//   Copyright 2018  SenX S.A.S.
+//   Copyright 2019  SenX S.A.S.
 //
 //   Licensed under the Apache License, Version 2.0 (the "License");
 //   you may not use this file except in compliance with the License.
@@ -13,6 +13,7 @@
 //   See the License for the specific language governing permissions and
 //   limitations under the License.
 //
+
 package io.warp10.script.ext.tensorflow;
 
 import java.util.HashMap;
@@ -33,6 +34,8 @@ public class TensorFlowWarpScriptExtension extends WarpScriptExtension {
     functions.put("TFRECORDCRC32->",  new TFRECORDTO("TFRECORD->", true));
     functions.put("TFRECORD->",  new TFRECORDTO("TFRECORD->"));
     functions.put("TFEXAMPLE->",  new TFEXAMPLETO("TFEXAMPLE->"));
+    functions.put("->TFSEQEXAMPLE", new TOTFSEQEXAMPLE("->TFSEQEXAMPLE"));
+    functions.put("TFSEQEXAMPLE->", new TFSEQEXAMPLETO("TFSEQEXAMPLE->"));
   }
   
   @Override
