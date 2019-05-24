@@ -19,7 +19,7 @@ The input parameter to the `->TFSEQEXAMPLE` function is a map containing two key
 
 The `context` key has an associated map as value. The keys of this map are feature names and the associated values are LONG, DOUBLE, STRING or byte arrays or lists thereof. It has the same structure as the parameter map to `->TFEXAMPLE`.
 
-The `featurelists` key also has a map as value. The keys of this map are feature names and the associated values are LONG, DOUBLE, STRING or byte array elements, lists of LONG, DOUBLE, STRING, byte arrays or sequences (lists) of such lists.
+The `feature_lists` key also has a map as value. The keys of this map are feature names and the associated values are LONG, DOUBLE, STRING or byte array elements, lists of LONG, DOUBLE, STRING, byte arrays or sequences (lists) of such lists.
 Ultimately each feature name will be associated with a sequence of lists of LONG, DOUBLE, STRING or byte array values.
 
 The definition of `tf.train.SequenceExample` can be found in its `.proto` [file](https://github.com/tensorflow/tensorflow/blob/master/tensorflow/core/example/example.proto).
@@ -45,7 +45,7 @@ The `->TFSEQEXAMPLE` function can also create a `tf.train.SequenceExample` insta
     'feature-3' 'Hello, World!'
     'feature-4' 3.14159265359
   }
-  'featurelists' {
+  'feature_lists' {
     'fl1' [ [ 1 2 3 ] [ 4 5 6 ] [ 7 8 9 ] ]
     'fl2' [ 1 2 3 ]
     'fl3' 42.0

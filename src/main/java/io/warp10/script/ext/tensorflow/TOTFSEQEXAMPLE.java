@@ -44,7 +44,7 @@ import io.warp10.script.WarpScriptStackFunction;
 public class TOTFSEQEXAMPLE extends NamedWarpScriptFunction implements WarpScriptStackFunction {
 
   public static final String CONTEXT_KEY = "context";
-  public static final String FEATURELISTS_KEY = "featurelists";
+  public static final String FEATURELISTS_KEY = "feature_lists";
   
   public TOTFSEQEXAMPLE(String name) {
     super(name);
@@ -170,7 +170,7 @@ public class TOTFSEQEXAMPLE extends NamedWarpScriptFunction implements WarpScrip
             typed = true;
             fb = FloatList.newBuilder();
           }
-          fb.addValue(((Number) elt).floatValue());
+          fb.addValue(((Number) elt).floatValue());          
         } else if (elt instanceof byte[]) {
           if (typed && null == bb) {
             throw new WarpScriptException(name + " expects value lists to contains elements of the same type.");
