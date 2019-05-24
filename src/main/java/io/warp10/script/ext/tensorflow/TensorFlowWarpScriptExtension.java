@@ -30,8 +30,6 @@ public class TensorFlowWarpScriptExtension extends WarpScriptExtension {
     
     functions.put("->TFEXAMPLE",  new TOTFEXAMPLE("->TFEXAMPLE"));
     functions.put("->TFRECORD",  new TOTFRECORD("->TFRECORD"));
-    functions.put("->TFRECORDCRC32",  new TOTFRECORD("->TFRECORD", true));
-    functions.put("TFRECORDCRC32->",  new TFRECORDTO("TFRECORD->", true));
     functions.put("TFRECORD->",  new TFRECORDTO("TFRECORD->"));
     functions.put("TFEXAMPLE->",  new TFEXAMPLETO("TFEXAMPLE->"));
     functions.put("->TFSEQEXAMPLE", new TOTFSEQEXAMPLE("->TFSEQEXAMPLE"));

@@ -32,16 +32,8 @@ public class TOTFRECORD extends NamedWarpScriptFunction implements WarpScriptSta
   
   static final int MASK_DELTA = 0xa282ead8;
   
-  private final boolean docrc;
-  
   public TOTFRECORD(String name) {
     super(name);
-    docrc = false;
-  }
-
-  public TOTFRECORD(String name, boolean docrc) {
-    super(name);
-    this.docrc = docrc;
   }
 
   @Override
@@ -61,11 +53,7 @@ public class TOTFRECORD extends NamedWarpScriptFunction implements WarpScriptSta
       bytes = ((SequenceExample) top).toByteArray();
     }
 
-    if (docrc) {
-      stack.push(toTFRecord(bytes));
-    } else {
-      stack.push(bytes);
-    }
+    stack.push(toTFRecord(bytes));
 
     return stack;
   }
