@@ -1,0 +1,45 @@
+{
+  'name' 'TFRECORD->'
+  'since' '2.1.0'
+  'deprecated' ''
+  'deleted' ''
+  'version' 'all'
+  'tags' [ 'extension' ]
+  'ext' 'io.warp10.script.ext.tensorflow.TensorFlowWarpScriptExtension'
+  'desc' 
+    <'
+The `TFRECORD->` function parses a byte array containing a [`TFRecord`](https://www.tensorflow.org/alpha/tutorials/load_data/tf_records#tfrecords_format_details) and outputs the data payload byte array.
+
+The payload can later be converted to a [`tf.train.Example`](https://www.tensorflow.org/tutorials/load_data/tf_records#tfexample) or [`tf.train.SequenceExample`](https://www.tensorflow.org/api_docs/python/tf/train/SequenceExample) message by calling `->TFEXAMPLE` or `->TFSEQEXAMPLE`.
+    '>
+  'sig' [ 
+    [ [ 'tfrecord:BYTES' ] [ 'payload:BYTES' ] ] 
+  ]
+  'params' {
+    'tfrecord' '`TFRecord` byte array.'
+    'payload' 'Payload of the `TFRecord`.'
+  }
+  'related' [ '->TFEXAMPLE' '->TFSEQEXAMPLE' '->TFRECORD' ]
+  'examples' [ 
+    <'
+{
+  'feature-1' [ 1 2 3 ]
+  'feature-2' [ 41.0 42.0 ]
+  'feature-3' 'Hello, World!'
+  'feature-4' 3.14159265359
+} ->TFEXAMPLE
+->TFRECORD
+TFRECORD->
+->TFEXAMPLE
+TFEXAMPLE->
+    '>
+  ]
+  'conf' [ ]
+} '.info' STORE
+<%
+  !$.info INFO
+  <% 'TFRECORD->' EVAL %> <% %> <% %> TRY
+%>
+'macro' STORE
+// Unit tests
+$macro

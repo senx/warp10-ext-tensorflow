@@ -1,0 +1,45 @@
+{
+  'name' '->TFRECORD'
+  'since' '2.1.0'
+  'deprecated' ''
+  'deleted' ''
+  'version' 'all'
+  'tags' [ 'extension' ]
+  'ext' 'io.warp10.script.ext.tensorflow.TensorFlowWarpScriptExtension'
+  'desc' 
+    <'
+The `->TFRECORD` function serializes a [TensorFlow](https://www.tensorflow.org/) [`tf.train.Example`](https://www.tensorflow.org/tutorials/load_data/tf_records#tfexample) or [`tf.train.SequenceExample`](https://www.tensorflow.org/api_docs/python/tf/train/SequenceExample) message into a byte array representing a [`TFRecord`](https://www.tensorflow.org/alpha/tutorials/load_data/tf_records#tfrecords_format_details).
+
+A `TFRecord` contains the serialized `Example` or `SequenceExample` plus some information about the size of the serialized data and some error detection codes (Cyclic Redundancy Check, CRC32).
+
+The byte array resulting from the call to `->TFRECORD` can be stored in a TensorFlow `TFRecord` file for efficient loading.
+    '>
+  'sig' [ 
+    [ [ 'tfexample:TFEXAMPLE' ] [ 'tfrecord:BYTES' ] ] 
+    [ [ 'tfseqexample:TFSEQEXAMPLE' ] [ 'tfrecord:BYTES' ] ]
+  ]
+  'params' {
+    'tfexample' 'Instance of `tf.train.Example` message.'
+    'tfrecord' 'Resulting `TFRecord` blob.'
+  }
+  'related' [ '->TFEXAMPLE' '->TFSEQEXAMPLE' 'TFRECORD->' ]
+  'examples' [ 
+    <'
+{
+  'feature-1' [ 1 2 3 ]
+  'feature-2' [ 41.0 42.0 ]
+  'feature-3' 'Hello, World!'
+  'feature-4' 3.14159265359
+} ->TFEXAMPLE
+->TFRECORD
+    '>
+  ]
+  'conf' [ ]
+} '.info' STORE
+<%
+  !$.info INFO
+  <% '->TFRECORD' EVAL %> <% %> <% %> TRY
+%>
+'macro' STORE
+// Unit tests
+$macro
