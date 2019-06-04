@@ -152,6 +152,9 @@ shadowJar {
    include 'io.warp10/warp10-ext-tensorflow/*.mc2'
    include 'io.warp10/warp10-ext-tensorflow/**/*.mc2'
   }
+  from('.') {
+    include 'README.md'
+  }
 }
 
 shadowJar.dependsOn(test)
