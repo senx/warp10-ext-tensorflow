@@ -4,7 +4,7 @@ This extension adds functions to the WarpScript™ language to manipulate [Tenso
 
 `TFRecord` is the recommended format for storing and feeding data into models for both training and inference. It is a compact binary format which can be used in TensorFlow without needing to convert back and forth to Python Numpy arrays.
 
-The use of `TFRecords` therefore brings imporved performance and efficiency to your Machine Learning pipeline.
+The use of `TFRecords` therefore brings improved performance and efficiency to your Machine Learning pipeline.
 
 ## Installation
 
