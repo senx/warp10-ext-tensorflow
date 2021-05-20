@@ -1,0 +1,52 @@
+{
+  'name' 'TFSEQEXAMPLE->'
+  'since' '2.1.0'
+  'deprecated' ''
+  'deleted' ''
+  'version' 'all'
+  'tags' [ 'extension' ]
+  'ext' 'io.warp10.script.ext.tensorflow.TensorFlowWarpScriptExtension'
+  'desc' 
+    <'
+The `TFSEQEXAMPLE->` function parses a [TensorFlow](https://www.tensorflow.org/) [`tf.train.SequenceExample`](https://www.tensorflow.org/api_docs/python/tf/train/SequenceExample) message and emits a WarpScript™ map of its content.
+
+This map has the same format as the parameter to `->TFSEQEXAMPLE`.
+
+The definition of the `tf.train.SequenceExample` message can be found in its `.proto` [file](https://github.com/tensorflow/tensorflow/blob/master/tensorflow/core/example/example.proto).
+    '>
+  'sig' [ 
+    [ [ 'tseqfexample:TFSEQEXAMPLE' ] [ 'map:MAP' ] ] 
+  ]
+  'params' {
+    'map' 'Map representing the content of `tfexample`.'
+    'tfseqexample' '`tf.train.SequenceExample` message.'
+  }
+  'related' [ 'TFEXAMPLE->' '->TFSEQEXAMPLE' 'TFRECORD->' 'TFRECORDCRC32->' ]
+  'examples' [ 
+    <'
+{
+  'context' {
+    'feature-1' [ 1 2 3 ]
+    'feature-2' [ 41.0 42.0 ]
+    'feature-3' 'Hello, World!'
+    'feature-4' 3.14159265359
+  }
+  'featurelists' {
+    'fl1' [ [ 1 2 3 ] [ 4 5 6 ] [ 7 8 9 ] ]
+    'fl2' [ 1 2 3 ]
+    'fl3' 42.0
+  }
+} ->TFSEQEXAMPLE
+
+TFSEQEXAMPLE->
+    '>
+  ]
+  'conf' [ ]
+} '.info' STORE
+<%
+  !$.info INFO
+  <% 'TFSEQEXAMPLE->' EVAL %> <% %> <% %> TRY
+%>
+'macro' STORE
+// Unit tests
+$macro

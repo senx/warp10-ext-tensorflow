@@ -13,6 +13,7 @@
 //   See the License for the specific language governing permissions and
 //   limitations under the License.
 //
+
 package io.warp10.script.ext.tensorflow;
 
 import java.nio.ByteBuffer;
@@ -30,16 +31,8 @@ import io.warp10.script.WarpScriptStackFunction;
 
 public class TFRECORDTO extends NamedWarpScriptFunction implements WarpScriptStackFunction {
   
-  private final boolean docrc;
-  
   public TFRECORDTO(String name) {
     super(name);
-    this.docrc = false;
-  }
-
-  public TFRECORDTO(String name, boolean docrc) {
-    super(name);
-    this.docrc = docrc;
   }
 
   @Override
@@ -53,48 +46,40 @@ public class TFRECORDTO extends NamedWarpScriptFunction implements WarpScriptSta
 
     byte[] bytes = null;
     
-    if (docrc) {
-      ByteBuffer tfrecordbb = ByteBuffer.wrap((byte[]) top);
-      tfrecordbb.order(ByteOrder.LITTLE_ENDIAN);
+    ByteBuffer tfrecordbb = ByteBuffer.wrap((byte[]) top);
+    tfrecordbb.order(ByteOrder.LITTLE_ENDIAN);
       
-      long len = tfrecordbb.getLong();
+    long len = tfrecordbb.getLong();
       
-      int goldcrc = tfrecordbb.getInt();
+    int goldcrc = tfrecordbb.getInt();
       
-      PureJavaCrc32C crc32c = new PureJavaCrc32C();
-      crc32c.update((byte[]) top, 0, 8);
-      int crc = ((int) crc32c.getValue());
-      //  Rotate right by 15 bits and add a constant.
-      crc = ((crc >>> 15) | (crc << 17)) + TOTFRECORD.MASK_DELTA;
+    PureJavaCrc32C crc32c = new PureJavaCrc32C();
+    crc32c.update((byte[]) top, 0, 8);
+    int crc = ((int) crc32c.getValue());
+    //  Rotate right by 15 bits and add a constant.
+    crc = ((crc >>> 15) | (crc << 17)) + TOTFRECORD.MASK_DELTA;
       
-      if (crc != goldcrc) {
-        throw new WarpScriptException(getName() + " encountered a corrupted TFRecord length.");
-      }
+    if (crc != goldcrc) {
+      throw new WarpScriptException(getName() + " encountered a corrupted TFRecord length.");
+    }
       
-      bytes = new byte[(int) len];
-            
-      tfrecordbb.get(bytes);
+    bytes = new byte[(int) len];
       
-      goldcrc = tfrecordbb.getInt();
+    tfrecordbb.get(bytes);
       
-      crc32c.reset();
-      crc32c.update(bytes, 0, bytes.length);
-      crc = ((int) crc32c.getValue());
-      //  Rotate right by 15 bits and add a constant.
-      crc = ((crc >>> 15) | (crc << 17)) + TOTFRECORD.MASK_DELTA;
+    goldcrc = tfrecordbb.getInt();
+      
+    crc32c.reset();
+    crc32c.update(bytes, 0, bytes.length);
+    crc = ((int) crc32c.getValue());
+    //  Rotate right by 15 bits and add a constant.
+    crc = ((crc >>> 15) | (crc << 17)) + TOTFRECORD.MASK_DELTA;
 
-      if (crc != goldcrc) {
-        throw new WarpScriptException(getName() + " encountered corrupted TFRecord data.");
-      }
-    } else {
-      bytes = (byte[]) top;
+    if (crc != goldcrc) {
+      throw new WarpScriptException(getName() + " encountered corrupted TFRecord data.");
     }
 
-    try {
-      stack.push(Example.parseFrom(bytes));
-    } catch (InvalidProtocolBufferException ipbe) {
-      throw new WarpScriptException(getName() + " encountered and error when parsing TFRecord.");
-    }      
+    stack.push(bytes);
 
     return stack;
   }  

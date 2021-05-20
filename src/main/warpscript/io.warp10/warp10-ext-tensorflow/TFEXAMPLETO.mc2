@@ -1,0 +1,46 @@
+{
+  'name' 'TFEXAMPLE->'
+  'since' '2.1.0'
+  'deprecated' ''
+  'deleted' ''
+  'version' 'all'
+  'tags' [ 'extension' ]
+  'ext' 'io.warp10.script.ext.tensorflow.TensorFlowWarpScriptExtension'
+  'desc' 
+    <'
+The `TFEXAMPLE->` function parses a [TensorFlow](https://www.tensorflow.org/) [`tf.train.Example`](https://www.tensorflow.org/tutorials/load_data/tf_records#tfexample) message and emits a WarpScript™ map of its content.
+
+This map has the same format as the parameter to `->TFEXAMPLE`.
+
+The definition of the `tf.train.Example` message can be found in its `.proto` [file](https://github.com/tensorflow/tensorflow/blob/master/tensorflow/core/example/example.proto).
+    '>
+  'sig' [ 
+    [ [ 'tfexample:TFEXAMPLE' ] [ 'map:MAP' ] ] 
+  ]
+  'params' {
+    'map' 'Map representing the content of `tfexample`.'
+    'tfexample' '`tf.train.Example` message.'
+  }
+  'related' [ '->TFEXAMPLE' 'TFSEQEXAMPLE->' 'TFRECORD->' 'TFRECORDCRC32->' ]
+  'examples' [ 
+    <'
+
+{
+  'feature-1' [ 1 2 3 ]
+  'feature-2' [ 41.0 42.0 ]
+  'feature-3' 'Hello, World!'
+  'feature-4' 3.14159265359
+} ->TFEXAMPLE
+
+TFEXAMPLE->
+    '>
+  ]
+  'conf' [ ]
+} '.info' STORE
+<%
+  !$.info INFO
+  <% 'TFEXAMPLE->' EVAL %> <% %> <% %> TRY
+%>
+'macro' STORE
+// Unit tests
+$macro

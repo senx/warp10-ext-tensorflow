@@ -1,0 +1,64 @@
+{
+  'name' '->TFSEQEXAMPLE'
+  'since' '2.1.0'
+  'deprecated' ''
+  'deleted' ''
+  'version' 'all'
+  'tags' [ 'extension' ]
+  'ext' 'io.warp10.script.ext.tensorflow.TensorFlowWarpScriptExtension'
+  'desc' 
+    <'
+The `->TFSEQEXAMPLE` function creates a [TensorFlow](https://www.tensorflow.org/) [`tf.train.SequenceExample`](https://www.tensorflow.org/api_docs/python/tf/train/SequenceExample) message from a map of elements.
+
+A TensorFlow `tf.train.SequenceExample` is an Example representing one or more sequences, it is particularly suited for representing elements which change over time.
+
+A `tf.train.SequenceExample` also contains a context which is a set of features which do not change over time and thus do not need to be represented as sequences.
+
+
+The input parameter to the `->TFSEQEXAMPLE` function is a map containing two keys, `context` and `featurelists`.
+
+The `context` key has an associated map as value. The keys of this map are feature names and the associated values are LONG, DOUBLE, STRING or byte arrays or lists thereof. It has the same structure as the parameter map to `->TFEXAMPLE`.
+
+The `feature_lists` key also has a map as value. The keys of this map are feature names and the associated values are LONG, DOUBLE, STRING or byte array elements, lists of LONG, DOUBLE, STRING, byte arrays or sequences (lists) of such lists.
+Ultimately each feature name will be associated with a sequence of lists of LONG, DOUBLE, STRING or byte array values.
+
+The definition of `tf.train.SequenceExample` can be found in its `.proto` [file](https://github.com/tensorflow/tensorflow/blob/master/tensorflow/core/example/example.proto).
+
+The `->TFSEQEXAMPLE` function can also create a `tf.train.SequenceExample` instance from a byte array containing a previously serialized `tf.train.SequenceExample` instance.
+    '>
+  'sig' [ 
+    [ [ 'params:MAP' ]  [ 'tfseqexample:TFSEQEXAMPLE' ] ]
+    [ [ 'bytes:BYTES' ] [ 'tfseqexample:TFSEQEXAMPLE' ] ] 
+  ]
+  'params' {
+    'params' 'Parameter map, see above for the format.'
+    'tfseqexample' 'Resulting `tf.train.SequenceExample` message.'
+    'bytes' 'Serialized `tf.train.SequenceExample` instance.'
+  }
+  'related' [ 'TFSEQEXAMPLE->' '->TFEXAMPLE' '->TFRECORD' ]
+  'examples' [ 
+    <'
+{
+  'context' {
+    'feature-1' [ 1 2 3 ]
+    'feature-2' [ 41.0 42.0 ]
+    'feature-3' 'Hello, World!'
+    'feature-4' 3.14159265359
+  }
+  'feature_lists' {
+    'fl1' [ [ 1 2 3 ] [ 4 5 6 ] [ 7 8 9 ] ]
+    'fl2' [ 1 2 3 ]
+    'fl3' 42.0
+  }
+} ->TFSEQEXAMPLE
+    '>
+  ]
+  'conf' [ ]
+} '.info' STORE
+<%
+  !$.info INFO
+  <% '->TFSEQEXAMPLE' EVAL %> <% %> <% %> TRY
+%>
+'macro' STORE
+// Unit tests
+$macro

@@ -1,0 +1,51 @@
+{
+  'name' '->TFEXAMPLE'
+  'since' '2.1.0'
+  'deprecated' ''
+  'deleted' ''
+  'version' 'all'
+  'tags' [ 'extension' ]
+  'ext' 'io.warp10.script.ext.tensorflow.TensorFlowWarpScriptExtension'
+  'desc' 
+    <'
+The `->TFEXAMPLE` function creates a [TensorFlow](https://www.tensorflow.org/) [`tf.train.Example`](https://www.tensorflow.org/tutorials/load_data/tf_records#tfexample) message from a map of elements.
+
+A TensorFlow `tf.train.Example` is a map whose keys are feature names (STRINGs) and values are [`tf.train.Feature`](https://github.com/tensorflow/tensorflow/blob/master/tensorflow/core/example/feature.proto) instances.
+
+The input parameter to the `->TFEXAMPLE` function is a map whose keys are the names of the features, and the associated values are either LONG, DOUBLE, STRING or byte array elements or lists thereof. Values of type STRING will be converted to byte arrays using UTF-8.
+
+The feature values in the `tf.train.Example` message will always be lists.
+
+The definition of `tf.train.Example` can be found in its `.proto` [file](https://github.com/tensorflow/tensorflow/blob/master/tensorflow/core/example/example.proto).
+
+The `->TFEXAMPLE` function can also create a `tf.train.Example` instance from a byte array containing a previously serialized `tf.train.Example` instance.
+    '>
+  'sig' [ 
+    [ [ 'params:MAP' ]  [ 'tfexample:TFEXAMPLE' ] ] 
+    [ [ 'bytes:BYTES' ] [ 'tfexample:TFEXAMPLE' ] ]
+  ]
+  'params' {
+    'params' 'Map of feature name to feature value, see the function description for the details.'
+    'tfexample' 'Resulting `tf.train.Example` message.'
+    'bytes' 'Serialized `tf.train.Example` instance.'
+  }
+  'related' [ 'TFEXAMPLE->' '->TFSEQEXAMPLE' '->TFRECORD' ]
+  'examples' [ 
+    <'
+{
+  'feature-1' [ 1 2 3 ]
+  'feature-2' [ 41.0 42.0 ]
+  'feature-3' 'Hello, World!'
+  'feature-4' 3.14159265359
+} ->TFEXAMPLE
+    '>
+  ]
+  'conf' [ ]
+} '.info' STORE
+<%
+  !$.info INFO
+  <% '->TFEXAMPLE' EVAL %> <% %> <% %> TRY
+%>
+'macro' STORE
+// Unit tests
+$macro
